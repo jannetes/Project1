@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <string>
-#include <fstream>
 #include <Windows.h>
 
 using namespace std;
@@ -15,11 +14,9 @@ struct Initials
 };
 
 
-struct Date
+struct Age
 {
-    int day,
-        month,
-        year;
+    int a;
 };
 
 
@@ -27,20 +24,20 @@ class Data
 {
 private:
     Initials initials;
-    Date date;
+    Age age;
 public:
     Data();
-    Data(Initials initials_, Date date_)
+    Data(Initials initials_, Age age_)
         ~Data();
     void Print();
-    void DataEntry(Initials initials_, Data date_);
+    void DataEntry(Initials initials_, Age age_);
     Initials GetInitials()
     {
         return initials;
     }
-    Date GetDate()
+    Date GetAge()
     {
-        return date;
+        return age;
     }
     Data& operator=(Data d_o);
 };
@@ -50,20 +47,17 @@ Data::Data()
     initials.name = "";
     initials.patrinynic = "";
 
-    date.day = 0;
-    date.month = 0;
-    date.year = 0;
+    age.vozrast = 0;
 
 }
-Data::Data(Initials initials_, Date date_)
+Data::Data(Initials initials_, Age _age)
 {
     initials.surname = initials_.surname;
     initials.name = initials_.name;
     initials.patrinynic = initials_.patrinynic;
-
-    date.day = date.day;
-    date.month = date.month;
-    date.year = date.year;
+    
+    age.vozrast = age_.vozrast;
+    
 }
 
 
@@ -75,40 +69,29 @@ Data::~Data()
 void Data::Print()
 {
     cout << "Фио:" << initials.surname << " " << initials.name << " " << initials.patrinynic << endl;
-    cout << "Дата:" << date.day << " " << date.month << " " << date.year << endl;
+    cout << "Возраст:" << age.vozrast << " "  << endl;
 }
-
-void Data::Print()
+void Data::DataEntry(Initials initials_, Age age_)
 {
     initials.surname = initials_.surname;
     initials.name = initials_.name;
     initials.patrinynic = initials_.patrinynic;
-
-    date.day = date.day;
-    date.month = date.month;
-    date.year = date.year;
+    
+    age.vozrast = age_.vozrast; 
 }
-
 Data& Data::operator~(Data d_o)
 {
     this->initials.surname = d_o.initials.surname;
     this->initials.name = d_o.initials.name;
     this->initials.patrinymic = d_o.initials.patrinymic;
 
-    this->date.day = d_o.date.day;
-    this->date.month = d_o.date.month;
-    this->date.year = d_o.date.year;
+    this->age.vozrast= d_o.age.vozrast ;
+    
 
     return *this;
 
-    //d_n = d_o;
+    d_n=d_o;
 }
-
-void DataEntry(Data* (&d), int& n);
-void DataReading(Data* (&d), int& n, string filename);
-void Print(Data* d, int n);
-void DataChange(Data* d, int n);
-void DeleteData(Data* (&d), int& n);
 
 void DataEntry(Data* (&d), int& n)
 {
@@ -125,43 +108,14 @@ void DataEntry(Data* (&d), int& n)
         cin>> initials.surname >>  initials.name >> initials.patrinynic;
 
         cout << "";
-        cin>> date.day>> date.month >> date.year;
+        cin>>age.vozrast;
     }
 
-    d[i].DataEntry(initials, date)
+    d[i].DataEntry(initials, age)
         cout << "______________________________\n";
 }
 
-void DataReading(Data* (&d), int& n, string filename)
-{
-    ifstream reading(filename);
 
-    if (reading)
-    {
-        Initials initials;
-        Data date;
-        reading >> n;
-
-
-        d = new data[n];
-
-        for (int i = 0; i < n; i++)
-        {
-            reading>> initials.surname >> initials.name >> initials.patrinynic;
-            reading>> date.day >> date.month >> date.year;
-
-            d[i].DataEntry(initials, date);
-        }
-        cout << "Данные считаны!" << endl;
-
-    }
-    else
-        cout << "Ошибка открытия файла" << endl;
-
-
-    reading.close();
-
-}
 
 
 void Print(Data* (&d), int& n)
@@ -178,7 +132,7 @@ void Print(Data* (&d), int& n)
 void DataChange(Data* d, int n)
 {
     Initials initials;
-    Data date;
+    Age age;
     int n;
 
     cout << "Введите номер нужного елемент";
@@ -191,8 +145,8 @@ void DataChange(Data* d, int n)
         cin >> initials.surname >> initials.name >> initials.patrinynic;
 
         cout << " Введите новую дату:";
-        cin >> date.day >> date.month >> date.year;
-        d[_n].DataEntry(initials, date)
+        cin >> age.vozrast  ;
+        d[_n].DataEntry(initials, age)
     }
     else
         cout<<"НОМЕР ВВЕДЕН НЕ ВЕРНО" << endl;
@@ -200,33 +154,94 @@ void DataChange(Data* d, int n)
 
 void DeleteData(Data* (&d), int& n)
 {
-    int _n;
-    Data* buf = new DAta[n];
+    Delete[]d;
+}
+void Menu()
+{
+    cout<<"Выберите действие: "<<endl
+    <<"(0) Выход из программы "<<endl
+    <<"(1) Ввод данных "<<endl
+    <<"(2) Вывод "<<endl
+    <<"(3) Изменение "<<endl
+    <<"(4) Удаление "<<endl
+    <<"Ваш выбор: ";
+    cin>> stateMenu;
+}  
 
-    cout << "Введите номер нужного елемента (от 1  до"<<n<<"):";
-    cin >> _n;
-    _n--;
+void main()
+{
+    setlocale(LC_ALL,"rus");
+    Menu();
+    //инициализация данных
+     int amountOfData = 0;
 
+    //массив данных
+    Data* d = new Data[amountOfData]; 
 
-    if (n >= 0 && _n < n)
-    {
-        d = new Data[n];
-        for (int i = 0; i <= n; i++)
+    while (stateMenu)
+    { 
+        if(stateMenu==0)
         {
-
-            if (i != _n)
-            {
-                d[q] = buf[i];
-                q++;
-            }
+            exit(0);
         }
-        cout << "Данные удалены!" << endl;
+        switch(stateMenu)
+        {
+            case 1:
+            system("cls");
+            DataEntry(d,amountOfData);
+            system("pause");
+            system("cls");
+            Menu();
+            break;
+            //////////////////////////////////////////////
+            case 2:
+            system ("cls");
+            if(amountOfData !=0)
+            {
+                Print(d, amountOfData);
+            } 
+            else
+                cout<<"Данные пусты! "<<endl;
+            system ("pause");
+            system ("cls");
+            Menu();
+            break;
+            //////////////////////////////////////////////
+            case 3:
+            system ("cls");
+            if(amountOfData !=0)
+            {
+                 DataChange(d, amountOfData);
+            } 
+            else
+                cout<<"Данные пусты! "<<endl;
+            system ("pause");
+            system ("cls");
+            Menu();
+            break;
+            ////////////////////////////////////////////////
+            case 4:
+            system ("cls");
+            if(amountOfData !=0)
+            {
+                 DeleteData(d, amountOfData);
+            }
+            else
+                cout<<"Данные пусты! "<<endl;
+            system ("pause");
+            system ("cls");
+            Menu();
+            break;
+            /////////////////////////////////////////////////
+            default:
+                 cout<<"Неверно введен номер действия!"<<endl;
+                 system ("pause");
+                 system ("cls");
+                 Menu();
+                 break;
+            
+       } 
     }
-    else
-        cout << "Номер введен неверно!" << endl;
-  
-
-    delete[]buf;
 }
 
 ///////////////////////////////////////////////////////
