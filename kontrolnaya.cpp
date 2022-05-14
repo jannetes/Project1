@@ -14,7 +14,7 @@ using namespace std;
       int* a = new int[size];
 
       cout << "Введите числа: " << endl;
-      for (size_t i = 0; i < size; i++)
+      for (int i = 0; i < size; i++)
       {
         cin >> a[i];
       }
